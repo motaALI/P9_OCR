@@ -1,0 +1,62 @@
+
+{% load static %}
+{% load star_rating %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<body>
+
+    <div class="container py-3">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="d-flex justify-content-between p-2 px-3">
+                        <div class="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg"
+                                width="50" class="rounded-circle">
+                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{post.user}}</span>
+                                <small class="text-primary">
+                                    <a href="{% url 'profile' post.user %}">@{{post.user}}</a></span>
+
+                                </small>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{post.time_created}}</small> <i
+                                class="fa fa-ellipsis-h"></i> </div>
+                    </div>
+                    <div class="p-2">
+
+                        <p class="text-justify">Réponse au {{post.ticket}}</p>
+
+                        <div>
+                            <!-- Rating: {{ post.rating|star_rating }} -->
+                            {% for s in "12345" %}
+                            <i class=" {% if s|add:'0' <= post.rating %} fa-solid fa-star yellow {% else %} fa-regular fa-star star-secondary {% endif %}"></i>
+                            {% endfor %}
+                            <!-- Rating: {{ post.rating }} -->
+                        </div>
+                        <p class="text-justify">{{post.headline}}</p>
+                        <p class="text-justify">{{post.body}}</p>
+                        <p class="text-justify"></p>
+                    </div>
+
+
+                    <!-- <div class="mb-3">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</body>
+<!-- <script src="{% static 'js/main.js' %}"></script> -->
+
+</html>

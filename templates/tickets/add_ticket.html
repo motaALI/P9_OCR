@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <div class="container py-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Créer un ticket</h5>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input class="form-control" type="text" name="title" id="title" placeholder="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea rows="10" style="height:100%;" class="form-control" type="description"
+                            name="description" id="description" placeholder="description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFileLg" class="btn btn-secondry">
+                            <input class="form-control" name="image" id="formFileLg" type="file"
+                                style="display:none;" />
+                            Télécharger fichier
+                        </label>
+                    </div>
+                    <button class="btn btn-primary pull-right" type="submit">Envoyer</button>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+{% endblock%}

@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <title>LETReview</title>
+</head>
+
+<body class="d-flex flex-column justify-content-center min-vh-100 mb-4 ">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand text-right" href="{% url 'feed' %}">LETReview</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarColor01">
+      <ul class="navbar-nav ms-auto flex-nowrap">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'feed' %}">Flux
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'feed' %}">Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'subscription' %}">Abonnements</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Plus d'action</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'profile' user %}">My account</a>
+            <a class="dropdown-item" href="{% url 'settings' %}">Account Settings</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'signout' %}">Se déconnecter</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  {% block content %}
+
+  {% endblock %}
+  
+
+  <footer class="mt-auto">
+    <div class="text-center p-3">
+      <span>
+        Copyright &copy;
+        <script>document.write(new Date().getFullYear())</script> LETReview.
+      </span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

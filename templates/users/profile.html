@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center min-vh-100">
+        <div class="col-md-8">
+            <!-- Column -->
+            <div class="card" style="position: relative;"> 
+                <img class="card-img-top" style="width: 100%; height: auto;" src="https://i.imgur.com/K7A78We.jpg" alt="Card image cap">
+                <div class="card-body little-profile text-center">
+                    <div class="pro-img">
+                        <img src="{{user_profile.profileimg.url}}" alt="user" 
+                        class="rounded-circle"
+                            width="200" height="200"></div>
+                    <h3 class="m-b-0">{{user_profile.user.username}}</h3>
+                    <!-- <p><a href="javascript:void(0)"
+                            class="m-t-10 waves-effect waves-dark btn btn-primary btn-md btn-rounded"
+                            data-abc="true">Follow</a> -->
+                    <div>
+                        <form action="{% url 'follow' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{user_object.username}}" name="following" id="following" />
+
+                            {% if user_object.username == user.username %}
+                            <a href="{% url 'settings' %}" data-ripple="">Account Settings</a>
+                            {% else %}
+                            <button type="submit"
+                                class="m-t-10 waves-effect waves-dark btn btn-primary btn-md btn-rounded">
+                                {{ follow|yesno:"Unfollow,Follow" }}
+                            </button>
+                            {% endif %}
+
+                        </form>
+                    </div>
+                    <div class="row text-center">
+                        <!--<div class="col-lg-4 col-md-4">
+                        <h3 class="m-b-0 font-light">{{user_ticket_length}}</h3><small>Tickets</small>
+                    </div>-->
+                        <div class="col-lg-4 col-md-4 m-t-20">
+                            <h3 class="m-b-0 font-light">{{user_review_length}}</h3><small>Review</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 m-t-20">
+                            <h3 class="m-b-0 font-light">{{user_followers}}</h3><small>Followers</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 m-t-20">
+                            <h3 class="m-b-0 font-light">{{user_following}}</h3><small>Following</small>
+                        </div>
+                    </div>
+
+                    <div class="row text-center">
+                        <p>{{user_profile.bio}}</p>
+                    </div>
+                    <div class="row text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Recent Tickets</p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                        </div>
+                        <br>
+                        
+
+                    </div>
+                    <div class="row">
+                        {% for post in user_tickets %}
+                          <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                              <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                              <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.description | truncatechars:100 }}</p>
+                                <!-- <a href="#" class="btn btn-primary">Read More</a> -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Read More
+                                  </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--READMORE MODUL-->
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">{{ post.title }}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                                      <p class="card-text">{{ post.description }}</p>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    <!--Recent reviews-->
+                    <div class="row text-center">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Recent Reviews</p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                        </div>
+                        <br>
+                        
+
+                    </div>
+                    <div class="row">
+                        {% for post in user_reviews %}
+                          <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                              <div class="card-body">
+                                <h5 class="card-title">{{post.ticket}}</h5>
+                                <div class="p-2">
+            
+                                    <div>
+                                        <!-- {% for s in "12345" %}
+                                        <i class=" {% if s|add:'0' <= post.rating %} fa-solid fa-star yellow {% else %} fa-regular fa-star star-secondary {% endif %}"></i>
+                                        {% endfor %} -->
+                                        <!-- Rating: {{ post.rating }} -->
+                                    </div>
+                                    <p class="text-justify">{{post.headline}}</p>
+                                    <p class="text-justify">{{post.body | truncatechars:100}}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock%}

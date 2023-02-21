@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center min-vh-100">
+        <div class="col-md-8">
+            <!-- Column -->
+            <div class="card mb-5 mt-5">
+                <div class="card-body">
+                    <h5 class="card-title">Suivre d'autres utilisateurs</h5>
+                    <div class="row">
+                        <form action="{% url 'search' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="search" name="username" id="username" class="col-sm-9"
+                                placeholder="Nom d'utilisateur" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" class="btn btn-outline-primary col-sm-2 p-0 m-0">Envoyer</button>
+                        </div>
+                        </form>
+
+                    
+                    <!-- <div class="row">
+                        {% if  username_object %}
+                        <li class="list-group-item d-flex">
+                            <p class="p-0 m-0 flex-grow-1">{{username_object}}</p>
+                            <button class="btn-danger">Désabonner</button>
+                        </li>
+                        {%endif %}
+                    </div> -->
+                </div>
+            </div>
+            <!-- {% if username_object %} -->
+            <!-- <div class="card mb-5">
+                <div class="card-header">
+                    Result
+                </div> -->
+                {% include 'users/search.html' with user=username_object %}
+                
+                <!-- <li class="list-group-item d-flex">
+                    <p class="p-0 m-0 flex-grow-1">{{username_object}}</p>
+                    <button class="btn-danger">Désabonner</button>
+                </li>
+            </div> -->
+            <!-- {% endif %} -->
+            <div class="card mb-5">
+                <div class="card-header">
+                    Abonnements
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for user in user_following %}
+                    <li class="list-group-item d-flex">
+                        <a href="{% url 'profile' user.followed_user %}" class="p-0 m-0 flex-grow-1" style="text-decoration: none;text-decoration: none;color: black;">
+                            {{user.followed_user}}
+                        </a>
+                        <!-- <button class="btn btn-outline-danger">Désabonner</button> -->
+                        <form action="{% url 'follow' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{user.followed_user}}" name="following" id="following" />
+                            <button type="submit" class="btn btn-outline-danger">Désabonner</button>
+
+                        </form>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card mb-5">
+                <div class="card-header">
+                    Abonnés
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for user in user_followers %}
+                    <li class="list-group-item d-flex">
+                        <p class="p-0 m-0 flex-grow-1">{{user}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock%}

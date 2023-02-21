@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LITReview Authentication</title>
+</head>
+
+<body>
+
+    <!-- {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert_dismissible fade show" role="alert">
+            <strong>Message: </strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %} -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Inscrivez-vous maintenant</h5>
+                        
+                        <a href="/signup" class="btn btn-primary">S'inscrire</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Connectez-vous</h5>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                            <label for="" class="form-label">Nom d'utilisateur</label>
+                            <input class="form-control" type="text" name="username" id="username" placeholder="Votre Nom" required>
+                        </div>
+                            <div class="mb-3">
+                            <label for="" class="form-label">Mot de pass</label>
+                            <input class="form-control" type="password" name="password" id="password" placeholder="Votre mot de passe"
+                                required>
+                            </div>
+
+                            <button class="btn btn-primary" type="submit">Se connecter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+{% endblock%}
