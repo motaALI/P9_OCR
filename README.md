@@ -12,7 +12,12 @@ Django version 4.1.4
     - Zip file : (vous pouvez également télécharger le code en utilisant un fichier zip)
     
 2. Rendez-vous depuis un terminal à la racine du répertoire P9_OCR
-3. Créer un environnement virtuel pour le projet avec $ python -m venv env sous windows ou $ python3 -m venv env sous mac os ou linux.
+3. Créer un environnement virtuel pour le projet avec :  
+    
+    `$ python -m venv env` sous windows
+    
+    `$ python3 -m venv env`  sous mac os ou linux.
+
 4. Activez l'environnement virtuel avec $ env\Scripts\activate sous windows ou $ source env/bin/activate sous macos ou linux.
 5. Installez les dépendances du projet avec la commande : 
     `$ pip install -r requirements.txt`  
