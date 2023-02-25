@@ -89,7 +89,7 @@ def add_review(request, pk):
         body = request.POST['body']
         new_review = Review.objects.create(ticket=ticket, rating=rating, user=user, headline=headline, body=body)
         new_review.save()
-        
+        return redirect("feed")
     return render(request,  'tickets/add_review.html', context={"ticket": ticket})
 
 @login_required(login_url='signin')
@@ -192,24 +192,14 @@ def settings(request):
 
     if request.method == 'POST':
         
-        if request.FILES.get('image') == None:
-            image = user_profile.profileimg
-            bio = request.POST['bio']
-            location = request.POST['location']
+        image = request.FILES.get('profileimg')
+        bio = request.POST['bio']
+        location = request.POST['location']
 
-            user_profile.profileimg = image
-            user_profile.bio = bio
-            user_profile.location = location
-            user_profile.save()
-        if request.FILES.get('image') != None:
-            image = request.FILES.get('image')
-            bio = request.POST['bio']
-            location = request.POST['location']
-
-            user_profile.profileimg = image
-            user_profile.bio = bio
-            user_profile.location = location
-            user_profile.save()
+        user_profile.profileimg = image
+        user_profile.bio = bio
+        user_profile.location = location
+        user_profile.save()
         
         return redirect('settings')
     return render(request, 'users/setting.html', {'user_profile': user_profile})
