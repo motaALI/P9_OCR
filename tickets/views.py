@@ -154,7 +154,7 @@ def profile(request, pk):
 
     user_followers = len(user_object.followed_by.all())
     user_following = len(user_object.following.all())
-    
+    print(f"user_profile : {user_profile}")
     context = {
         'user_object': user_object,
         'user_profile': user_profile,
@@ -189,20 +189,20 @@ def follow(request):
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
-
+    # print(f"user_profile", user_profile.username)
     if request.method == 'POST':
-        
-        image = request.FILES.get('profileimg')
+        image = user_profile.image
         bio = request.POST['bio']
         location = request.POST['location']
-
-        user_profile.profileimg = image
+        user_profile.image = image
         user_profile.bio = bio
         user_profile.location = location
         user_profile.save()
-        
         return redirect('settings')
-    return render(request, 'users/setting.html', {'user_profile': user_profile})
+    
+    user_profile = Profile.objects.get(user=request.user)
+    
+    return render(request, 'users/setting.html', context={"user_profile": user_profile})
 
 @login_required(login_url='signin')
 def subscription(request):

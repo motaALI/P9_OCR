@@ -27,11 +27,11 @@
                         <div class="row mt-5 align-items-center">
                             <div class="col-md-3 text-center mb-5">
                                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                    <img src="{{user_profile.profileimg.url}}" alt="..."
+                                    <img src="{{user_profile.image.url}}" alt="{{user_profile.username}}"
                                     class="rounded-circle mt-5" width="150px"/>
-                                    <label for="profileimg" class="btn btn-secondry">
-                                        <input class="form-control" name="profileimg" id="profileimg" type="file"
-                                            style="display:none;" />
+                                    <label for="image" class="btn btn-secondry">
+                                        <input class="form-control" name="image" id="image" type="file"
+                                            value="{{user_profile.user.image.url}} "style="display:none;" />
                                         Télécharger fichier
                                     </label>
                                 
@@ -40,7 +40,7 @@
                             <div class="col">
                                 <div class="row align-items-center">
                                     <div class="col-md-7">
-                                        <h4 class="mb-1">{{user_profile}}</h4>
+                                        <h4 class="mb-1">{{user_profile.user}}</h4>
                                     </div>
                                 </div>
                             </div>

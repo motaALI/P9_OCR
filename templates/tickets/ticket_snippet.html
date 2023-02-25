@@ -17,8 +17,10 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="d-flex justify-content-between p-2 px-3">
-                        <div class="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg"
+                        <div class="d-flex flex-row align-items-center">
+                            <img src="{{post.user.image.url}}"
                                 width="50" class="rounded-circle">
+                                {{post.user}}
                             <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{post.user.username}}</span>
                                 <small class="text-primary">
                                     <a href="{% url 'profile' post.user %}">@{{post.user}}</a></span>
