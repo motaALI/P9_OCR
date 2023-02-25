@@ -1,5 +1,5 @@
 # P9_OCR
-## Projet 9: PLITReview
+## Projet 9: LITReview
 Django version 4.1.4
 
 ## Installation et exécution de l'application :
