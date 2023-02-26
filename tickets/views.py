@@ -189,15 +189,27 @@ def follow(request):
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
-    # print(f"user_profile", user_profile.username)
+    
     if request.method == 'POST':
-        image = user_profile.image
-        bio = request.POST['bio']
-        location = request.POST['location']
-        user_profile.image = image
-        user_profile.bio = bio
-        user_profile.location = location
-        user_profile.save()
+        # Check if the form does not contain an image, take the default one
+        if request.FILES.get('image') == None:
+            image = user_profile.image
+            bio = request.POST['bio']
+            location = request.POST['location']
+            user_profile.image = image 
+            user_profile.bio = bio
+            user_profile.location = location
+            user_profile.save()
+
+        # Otherwise save this image
+        if request.FILES.get('image') != None:
+            image = request.FILES.get('image')
+            bio = request.POST['bio']
+            location = request.POST['location']
+            user_profile.image = image 
+            user_profile.bio = bio
+            user_profile.location = location
+            user_profile.save()
         return redirect('settings')
     
     user_profile = Profile.objects.get(user=request.user)
