@@ -82,13 +82,19 @@ def signout(request):
 def add_review(request, pk):
     username = request.user.username
     ticket = Ticket.objects.get(title=pk)
+    
     if request.method == 'POST':
+        # if Review.objects.filter(ticket=ticket).first():
+        #     is_review_exist = "Il est impossible de créer un avis car le ticket a déjà reçu une réponse"
+        #     return render(request,  'tickets/add_review.html', context={"ticket": ticket})
+            
         rating = request.POST['rating']
         user = User.objects.get(username=username)
         headline = request.POST['headline']
         body = request.POST['body']
         new_review = Review.objects.create(ticket=ticket, rating=rating, user=user, headline=headline, body=body)
         new_review.save()
+        messages.success(request, 'Review added successfully')
         return redirect("feed")
     return render(request,  'tickets/add_review.html', context={"ticket": ticket})
 
@@ -102,7 +108,7 @@ def add_ticket(request):
         user = User.objects.get(username=username)
         new_ticket = Ticket.objects.create(title=title, description=description, user=user, image=image)
         new_ticket.save()
-        
+        messages.success(request, 'Ticket added successfully')
         return redirect("feed")
     else:
         return render(request,  'tickets/add_ticket.html')
@@ -114,10 +120,19 @@ def feed(request):
     reviews = get_users_viewable_reviews(request)
     # returns queryset of reviews
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-
+    for review in reviews:
+        user_object = User.objects.get(username=review.user)
+        user_profile = Profile.objects.get(user=user_object)
+        review.user_photo_url =  user_profile.image.url
+        
     tickets = get_users_viewable_tickets(request)
     # returns queryset of tickets
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    for ticket in tickets:
+        user_object = User.objects.get(username=ticket.user)
+        user_profile = Profile.objects.get(user=user_object)
+        print(f"user_profileticket : {ticket.user}")
+        ticket.user_photo_url =  user_profile.image.url
 
     # combine and sort the two types of posts
     posts = sorted(
@@ -178,10 +193,12 @@ def follow(request):
         if UserFollower.objects.filter(followed_user=following, user=followed_by).first():
             delete_follower = UserFollower.objects.get(followed_user=following, user=followed_by)
             delete_follower.delete()
+            messages.info(request, 'Unfollowing user succeeds')
             return redirect('/profile/' + following.username)
         else:
             new_follower = UserFollower.objects.create(followed_user=following, user=followed_by)
             new_follower.save()
+            messages.info(request, 'Following user succeeds')
             return redirect('/profile/' + following.username)
     else:
         return redirect("feed")
@@ -200,6 +217,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+            messages.info(request, 'Profile updated successfully without image')
 
         # Otherwise save this image
         if request.FILES.get('image') != None:
@@ -210,6 +228,7 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
+            messages.info(request, 'Profile updated successfully with image')
         return redirect('settings')
     
     user_profile = Profile.objects.get(user=request.user)
