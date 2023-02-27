@@ -131,7 +131,6 @@ def feed(request):
     for ticket in tickets:
         user_object = User.objects.get(username=ticket.user)
         user_profile = Profile.objects.get(user=user_object)
-        print(f"user_profileticket : {ticket.user}")
         ticket.user_photo_url =  user_profile.image.url
 
     # combine and sort the two types of posts
@@ -144,15 +143,15 @@ def feed(request):
 
 
 def get_users_viewable_reviews(request):
-    # return Review.objects.filter(user = user)
-    # return Review.objects.all()
     subscribed_users = UserFollower.objects.filter(user=request.user).values_list('followed_user', flat=True)
-    return Review.objects.filter(user__in=subscribed_users)
+    reviews = Review.objects.filter(Q(user=request.user) | Q(user__in=subscribed_users))
+    return reviews
         
 
 def get_users_viewable_tickets(request):
     subscribed_users = UserFollower.objects.filter(user=request.user).values_list('followed_user', flat=True)
-    return Ticket.objects.filter(user__in=subscribed_users)
+    tickets = Ticket.objects.filter(Q(user=request.user) | Q(user__in=subscribed_users))
+    return tickets
 
 @login_required(login_url='signin')
 def profile(request, pk):
