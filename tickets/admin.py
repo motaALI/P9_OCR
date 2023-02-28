@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Ticket, Review, UserFollower, Profile
+
+from .models import Profile, Review, Ticket, UserFollower
 
 # Register your models here.
 

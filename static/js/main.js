@@ -1,4 +1,10 @@
 
+document.ready(function(){
+  setTimeout(function() {
+      $('#my-alert').fadeOut('slow');
+  }, 3000); // <-- time in milliseconds
+});
+
 function truncateText(text, maxLength=50) {
   if (text.length > maxLength) {
     const shortText = text.slice(0, maxLength) + "...";
