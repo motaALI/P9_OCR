@@ -12,7 +12,6 @@ from .models import Profile, Review, Ticket, UserFollower
 # Create your views here.
 
 
-@login_required(login_url="signin")
 def home(request):
     return render(request, "index.html")
 
@@ -28,10 +27,10 @@ def signup(request):
         if password == confpassword:
             if User.objects.filter(email=email).exists():
                 messages.info(request, "Email Taken")
-                return redirect("signup")
+                return redirect("home")
             elif User.objects.filter(username=username).exists():
                 messages.info(request, "Username Taken")
-                return redirect("signup")
+                return redirect("home")
             else:
                 new_user = User.objects.create_user(username, email, password)
                 new_user.save()
@@ -68,16 +67,16 @@ def signin(request):
 
         else:
             messages.info(request, "Credentials Invalid")
-            return redirect("signin")
+            return redirect("home")
 
     else:
-        return render(request, "signin.html")
+        return render(request, "index.html")
 
 
 @login_required(login_url="signin")
 def signout(request):
     auth.logout(request)
-    return redirect("signin")
+    return render(request, "index.html")
 
 
 @login_required(login_url="signin")
@@ -185,7 +184,7 @@ def profile(request, pk):
 
     user_followers = len(user_object.followed_by.all())
     user_following = len(user_object.following.all())
-    print(f"user_profile : {user_profile}")
+
     context = {
         "user_object": user_object,
         "user_profile": user_profile,
