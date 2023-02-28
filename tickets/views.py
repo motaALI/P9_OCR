@@ -275,9 +275,16 @@ def subscription(request):
 def search(request):
     if request.method == "POST":
         username = request.POST["username"]
-        username_object = User.objects.get(username=username)
-        # handleErrors
-
-    return render(
-        request, "users/subscription.html", {"username_object": username_object}
-    )
+        try:
+            username_object = User.objects.get(username=username)
+            return render(
+                request, "users/subscription.html", {"username_object": username_object}
+            )
+        except User.DoesNotExist:
+            useDoesNotExist = f"There is not a user with name : ({username})"
+            messages.warning(request, useDoesNotExist)
+            return render(
+                request,
+                "users/subscription.html",
+                context={"useDoesNotExist": useDoesNotExist},
+            )

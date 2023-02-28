@@ -28,31 +28,13 @@
                             <button type="submit" class="btn btn-outline-primary col-sm-2 p-0 m-0">Envoyer</button>
                         </div>
                         </form>
-
-                    
-                    <!-- <div class="row">
-                        {% if  username_object %}
-                        <li class="list-group-item d-flex">
-                            <p class="p-0 m-0 flex-grow-1">{{username_object}}</p>
-                            <button class="btn-danger">Désabonner</button>
-                        </li>
-                        {%endif %}
-                    </div> -->
                 </div>
             </div>
-            <!-- {% if username_object %} -->
-            <!-- <div class="card mb-5">
-                <div class="card-header">
-                    Result
-                </div> -->
-                {% include 'users/search.html' with user=username_object %}
-                
-                <!-- <li class="list-group-item d-flex">
-                    <p class="p-0 m-0 flex-grow-1">{{username_object}}</p>
-                    <button class="btn-danger">Désabonner</button>
-                </li>
-            </div> -->
-            <!-- {% endif %} -->
+                {% if useDoesNotExist %}
+                    <p>{{ useDoesNotExist }}</p>
+                {% else %}
+                    {% include 'users/search.html' with user=username_object %}
+                {% endif %}
             <div class="card mb-5">
                 <div class="card-header">
                     Abonnements
