@@ -20,7 +20,7 @@
                         <div class="d-flex flex-row align-items-center">
                             <img src="{{ post.user_photo_url }}"
                                 width="50" class="rounded-circle">
-                            <div class="d-flex flex-column ml-2"> <span class="font-weight-bold">{{post.user.username}}</span>
+                            <div class="d-flex flex-column ml-2">
                                 <small class="text-primary">
                                     <a href="{% url 'profile' post.user %}">@{{post.user}}</a></span>
 
@@ -30,8 +30,10 @@
                         <div class="d-flex flex-row mt-1 ellipsis"> <small class="mr-2">{{post.time_created}}</small> <i
                                 class="fa fa-ellipsis-h"></i> </div>
                     </div>
-                    <img src="{{post.image.url}}" alt="" class="img-fluid" style="max-height: 200px; min-height: 200px; width: auto; margin: auto;">
-                    <div class="p-2">
+                    {% if post.image %}
+                        <img src="{{post.image.url}}" alt="" class="img-fluid" style="max-height: 200px; min-height: 200px; width: auto; margin: auto;">
+                    {% endif %}
+                        <div class="p-2">
                         <p class="text-justify">{{post.title}}</p>
                         <!-- <p class="text-justify" id="text-container">{{post.description}}</p> -->
                         
